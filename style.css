@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600|Source+Sans+Pro|Titillium+Web|Roboto+Condensed');
+
+.container{
+
+	text-align: center;
+
+}
+
+h1{
+	font-family: 'Montserrat', sans-serif;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 30px;
+}
+
+#ds_errorbox{
+	padding: 15px;
+	background-color: #c04040;
+	border-radius: 5px;
+	width: 300px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	font-size: 15px;
+}
+
+#ds_successbox{
+	padding: 15px;
+	background-color: #5dba1c;
+	border-radius: 5px;
+	width: 300px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	font-size: 15px;
+}
+
+#wpwrap{
+	background-color: #21222d;
+}
+
+#wpcontent{
+	color: #fff;
+	font-family: 'Titillium Web', sans-serif;
+}
+
+.ds_field{
+	display: block;
+	margin: auto;
+	width: 500px;
+	background-color: #21222d !important;
+	color: #fff !important;
+	padding: 10px;
+	border: none !important;
+	border-bottom: 1px solid #fcf7f8 !important;
+}
+
+.ds_label{
+	font-family: 'Montserrat', sans-serif;
+	font-size: 18px;
+	color: #f5ebed;
+}
+
+.ds_button_submit{
+	margin-top: 20px;
+	padding: 10px;
+}
+
+.ds_loader{
+	position: absolute;
+	width: 100%;
+	background-color: #21222de6;
+	text-align: center;
+	height: 100%;
+}
+
+.ds_loader img{
+	margin-top: 25vh;
+}
+
+#modal_products{
+	width: 90%;
+	background-color: #282939;
+	position: absolute;
+	border-radius: 5px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+}
+
+#modal_products .list{
+
+}
+
+#modal_products .list .product{
+	border: 1px solid #cecece;
+	border-radius: 3px;
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+	width: 250px;
+}
+
+#modal_products .list .product img{
+	display: block;
+	padding: 10px;
+	margin: auto;
+}
+
+#modal_products .list .product .title{
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 15px;
+}
+
+#modal_products .list .product .oos{
+	color: #ee012a;
+	font-family: 'Montserrat', sans-serif;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 20px;
+	padding: 20px;
+	display: block;
+}
+
+#modal_products .list .product a{
+	display: block;
+	padding: 8px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 600;
+	border-radius: 3px;
+	margin: 8px;
+	font-size: 15px;
+	color: #cecece;
+	border: 1px solid #cecece;
+}

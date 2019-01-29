@@ -1,0 +1,1 @@
+How to install ? Check https://docs.dropshity.com
