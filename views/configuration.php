@@ -19,6 +19,7 @@
 	<a href="#" onclick="logout()">Déconnexion</a>
 </div>
 
+
 <form method="POST" action="options.php" id="ds_config_form">
 	<?php settings_fields('dropshifty_settings') ?>
 	<div style="margin: 10px">

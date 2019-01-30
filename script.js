@@ -6,11 +6,17 @@ if(g)for(i=f[f.length-1].ownerDocument,n.map(f,mb),j=0;g>j;j++)h=f[j],gb.test(h.
 // Check if user is logged, if not, try to log with filled credentials
 ds_call("CheckIfConnected", function(status){
 	if(status){
-		document.getElementById("ds_config_form").setAttribute("style", "display: none");
-		document.getElementById("ds_successbox").removeAttribute("style");
+		if(document.getElementById("ds_config_form")){
+			document.getElementById("ds_config_form").setAttribute("style", "display: none");
+			document.getElementById("ds_successbox").removeAttribute("style");
+		}
 		loader("hide");
 	}
 	else{
+		if(document.getElementById("ds_importer")){
+			document.getElementById("ds_importer").setAttribute("style", "display: none");
+			document.getElementById("ds_errorbox").removeAttribute("style");
+		}
 		if(scriptParams.ds_username){
 
 			var form = new FormData();
@@ -24,8 +30,10 @@ ds_call("CheckIfConnected", function(status){
 			  if (this.readyState === this.DONE) {
 			  	var msg = JSON.parse(this.responseText);
 			    if(msg.response === "ok"){
-					document.getElementById("ds_config_form").setAttribute("style", "display: none");
-					document.getElementById("ds_successbox").removeAttribute("style");
+			    	if(document.getElementById("ds_config_form")){
+			    		document.getElementById("ds_config_form").setAttribute("style", "display: none");
+						document.getElementById("ds_successbox").removeAttribute("style");
+			    	}
 					loader("hide");
 				}
 				else{
@@ -125,7 +133,7 @@ function logout(){
 	xhr.open('GET', 'http://localhost:8000/logout', true);
 	xhr.withCredentials = true;
 	xhr.send(null);
-	//window.location.replace(scriptParams.ds_plugin_url + "/wp-admin/admin.php?page=dropshifty_configuration&logout");
+	window.location.replace(scriptParams.ds_plugin_url + "/wp-admin/admin.php?page=dropshifty_configuration&logout");
 }
 
 // Import product function
@@ -154,11 +162,13 @@ function ds_product_submit(event){
 					}
 				}
 				else{
-					document.getElementById("ds_nb_founds").innerHTML = output	.msg.length;
-					var price = value.warehouse_list[Object.keys(value.warehouse_list)[0]];
-					console.log(price);
+					document.getElementById("ds_nb_founds").innerHTML = output.msg.length;
+					var warehouse = value.warehouse_list[Object.keys(value.warehouse_list)[0]];
+					console.log(warehouse.price);
+					console.log(warehouse.handling_fee);
+					console.log("ok")
 
-					list.innerHTML += '<div class="product"><img height="120px" src="'+value.original_img[0]+'"><span class="title">' + value.title + '</span><a href="">Importer</a></div>';
+					list.innerHTML += '<div class="product"><img height="120px" src="'+value.original_img[0]+'"><span class="title">' + value.title + '</span><div class="price">Prix $'+ warehouse.price +'</div><div class="fees">Frais $'+ warehouse.handling_fee +'</div><a href="">Importer</a></div>';
 				}
 			});
 		}

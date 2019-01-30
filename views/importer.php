@@ -20,20 +20,20 @@
 <h1>Importateur de produits</h1>
 
 <div id="ds_errorbox" style="display: none">
-	Identifiants incorrects
+	Vous devez vous connecter à votre compte Dropshifty pour importer des produits.
 </div>
 
 <div style="height: 20px"></div>
 
-
-<form method="POST">
-	<div style="margin: 10px">
-		<label class="ds_label">URL de votre produit</label>
-		<input class="ds_field" type="text" id="dropshifty_sku" name="dropshifty_product" placeholder="Entrez l'url du produit ici..." />
-	</div>
-	<button onclick="ds_product_submit(event)" id="ds_product_submit_btn" class="ds_button_submit">Importer</button>
-</form>
-
+<div id="ds_importer">
+	<form method="POST">
+		<div style="margin: 10px">
+			<label class="ds_label">URL de votre produit</label>
+			<input class="ds_field" type="text" id="dropshifty_sku" name="dropshifty_product" placeholder="Entrez l'url du produit ici..." />
+		</div>
+		<button onclick="ds_product_submit(event)" id="ds_product_submit_btn" class="ds_button_submit">Importer</button>
+	</form>
+</div>
 <script type="text/javascript">
 	loader("hide");
 </script>

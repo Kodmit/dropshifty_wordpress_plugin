@@ -2,6 +2,10 @@
 
 class DsWoocommerce{
 
+	private function check_dropshifty_product(){
+			
+	}
+
 
 	public function create_product($sku = "ok"){
 
@@ -32,7 +36,7 @@ class DsWoocommerce{
 		update_post_meta( $post_id, '_length', "" );
 		update_post_meta( $post_id, '_width', "" );
 		update_post_meta( $post_id, '_height', "" );
-		update_post_meta($post_id, '_sku', "");
+		update_post_meta( $post_id, '_sku', $sku);
 		update_post_meta( $post_id, '_product_attributes', array());
 		update_post_meta( $post_id, '_sale_price_dates_from', "" );
 		update_post_meta( $post_id, '_sale_price_dates_to', "" );
