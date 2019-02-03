@@ -270,44 +270,6 @@ function import_product(sku){
 	xhr.send(data);
 }
 
-
-function import_product_old(sku){
-	loader("show");
-	fetch_product("chinabrands", sku, function(output){
-		
-		Object.keys(output.msg).map(function(objectKey, index) {
-			var value = output.msg[objectKey];
-			if(value.sku == sku){
-
-				var warehouse = value.warehouse_list[Object.keys(value.warehouse_list)[0]];
-				
-				var form = new FormData();
-				form.append("ds_title", value.title);
-				form.append("ds_desc", value.goods_desc);
-				form.append("ds_img", value.original_img[0]);
-				form.append("ds_sku", value.sku);
-				form.append("ds_price", warehouse.price + value.handling_fee);
-
-				var xhr = new XMLHttpRequest();
-				xhr.withCredentials = true;
-
-				xhr.addEventListener("readystatechange", function () {
-				  if (this.readyState === this.DONE) {
-				  		console.log("Product imported successfuly");
-				  		loader("hide");
-				  }
-				});
-
-				xhr.open("POST", "http://localhost:8181/wp-admin/admin.php?page=dropshifty_importer");
-				xhr.send(form);
-
-				loader("hide");
-
-			}
-		});
-	});
-}
-
 // Get the product stock
 function get_product_stock(sku, warehouse){
 	var data = "{\"query\":\"{\\n\\tGetCBProductStock(sku:\\\"284491401\\\", warehouse:\\\"YB\\\")\\n}\"}";
