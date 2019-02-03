@@ -157,7 +157,7 @@ function ds_product_submit(event){
 
 				if(value.errcode){
 
-					if(value.errcode === 13006){
+					if(value.errcode === 13006 || value.errcode === 15015){
 						list.innerHTML += '<div class="product"><img style="padding: 20px" width="80px" src="' + scriptParams.ds_plugin_path + 'out_of_stock.png"><span class="oos">Out of stock</span></div>';
 					}
 					else{
@@ -216,21 +216,14 @@ function import_all_products(sku){
 	    loader("hide");
 
 	    Swal.fire({
-		  title: '<strong>Produits importés (lol)</strong>',
+		  title: '<strong>Produits importés</strong>',
 		  type: 'success',
-		  html:
-		    'You can use <b>bold text</b>, ' +
-		    '<a href="//github.com">links</a> ' +
-		    'and other HTML tags',
+		  html: 'Les produits ont été importés avec succès ! Vous pouvez les consulter dans la liste de vos produits.',
 		  showCloseButton: true,
-		  showCancelButton: true,
+		  showCancelButton: false,
 		  focusConfirm: false,
-		  confirmButtonText:
-		    '<i class="fa fa-thumbs-up"></i> Great!',
-		  confirmButtonAriaLabel: 'Thumbs up, great!',
-		  cancelButtonText:
-		    '<i class="fa fa-thumbs-down"></i>',
-		  cancelButtonAriaLabel: 'Thumbs down',
+		  confirmButtonText: 'Fermer',
+		  confirmButtonAriaLabel: 'Fermer'
 		})
 	  }
 	});
@@ -248,7 +241,7 @@ function import_product(sku){
 
 	var category = document.getElementById("ds_cats").value;
 
-	var data = "{\"query\":\"{\\n\\tImportToWc(sku: " + sku + ", cat_id: " + category + ")\\n}\"}";
+	var data = "{\"query\":\"{\\n\\tImportToWc(sku: " + sku + ", cat_id: " + category + ", type: \\\"simple\\\")\\n}\"}";
 
 	var xhr = new XMLHttpRequest();
 	xhr.withCredentials = true;
@@ -259,21 +252,14 @@ function import_product(sku){
 	    loader("hide");
 
 	    Swal.fire({
-		  title: '<strong>Produit importé !</strong>',
+		  title: '<strong>Produits importés</strong>',
 		  type: 'success',
-		  html:
-		    'You can use <b>bold text</b>, ' +
-		    '<a href="//github.com">links</a> ' +
-		    'and other HTML tags',
+		  html: 'Le produit a été importé avec succès ! Vous pouvez le consulter dans la liste des produits.',
 		  showCloseButton: true,
-		  showCancelButton: true,
+		  showCancelButton: false,
 		  focusConfirm: false,
-		  confirmButtonText:
-		    '<i class="fa fa-thumbs-up"></i> Great!',
-		  confirmButtonAriaLabel: 'Thumbs up, great!',
-		  cancelButtonText:
-		    '<i class="fa fa-thumbs-down"></i>',
-		  cancelButtonAriaLabel: 'Thumbs down',
+		  confirmButtonText: 'Fermer',
+		  confirmButtonAriaLabel: 'Fermer'
 		})
 	  }
 	});

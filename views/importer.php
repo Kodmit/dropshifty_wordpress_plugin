@@ -5,14 +5,14 @@
 <div class="container">
 
 <div style="display: none;" id="modal_products">
-	<h1><span id="ds_nb_founds">0</span> version(s) trouvé(s)</h1>
+	<h1><span id="ds_nb_founds">0</span> variation(s) trouvée(s)</h1>
 
 	<div class="ds_cats_container">
 		<h3>Choisissez une catégorie</h3>
 		<select id="ds_cats"></select>
 	</div>
 
-	<button onclick="import_all_products(document.getElementById('dropshifty_sku').value)" id="ds_import_all">Importer toutes les variations en un produit variable</button>
+	<button style="padding: 10px;" onclick="import_all_products(document.getElementById('dropshifty_sku').value)" id="ds_import_all">Importer toutes les variations en un produit variable</button>
 
 	<div class="list">
 
