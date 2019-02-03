@@ -16,10 +16,16 @@ class DropshiftyViews
 	{
 	    include("views/importer.php");
 
-	    if(isset($_POST['dropshifty_product'])){
+	    if(isset($_POST['ds_sku']) && isset($_POST["ds_title"])){
+
+	    	$sku = htmlentities($_POST["ds_sku"]);
+	    	$title = htmlentities($_POST["ds_title"]);
+	    	$desc = htmlentities($_POST["ds_desc"]);
+	    	$img = htmlentities($_POST["ds_img"]);
+	    	$price = htmlentities($_POST["ds_price"]);
 
 	    	$wc = new DsWoocommerce;
-	    	//$wc->create_product();
+	    	$wc->create_product($sku, $title, $desc, $img, $price);
 
 	    }
 	}

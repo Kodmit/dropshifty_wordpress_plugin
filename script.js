@@ -142,13 +142,16 @@ function ds_product_submit(event){
 	event.preventDefault();
 	var product_sku = document.getElementById("dropshifty_sku").value;
 
-	fecth_product("chinabrands", product_sku, function(output){
+	fetch_product("chinabrands", product_sku, function(output){
 		console.log(output);
 		document.getElementById("modal_products").removeAttribute("style");
 
 		var list = document.getElementsByClassName("list")[0];
 
 		if(output.status === 1){
+
+			get_categories();
+
 			Object.keys(output.msg).map(function(objectKey, index) {
 				var value = output.msg[objectKey];
 
@@ -164,11 +167,15 @@ function ds_product_submit(event){
 				else{
 					document.getElementById("ds_nb_founds").innerHTML = output.msg.length;
 					var warehouse = value.warehouse_list[Object.keys(value.warehouse_list)[0]];
-					console.log(warehouse.price);
-					console.log(warehouse.handling_fee);
-					console.log("ok")
 
-					list.innerHTML += '<div class="product"><img height="120px" src="'+value.original_img[0]+'"><span class="title">' + value.title + '</span><div class="price">Prix $'+ warehouse.price +'</div><div class="fees">Frais $'+ warehouse.handling_fee +'</div><a href="">Importer</a></div>';
+					if(value.color || value.size){ 
+						var variations = "<br><b>Couleur : " + value.color + " | Taille : " + value.size + "</b>"; 
+					}
+					else{
+						var variations = "";
+					}
+
+					list.innerHTML += '<div class="product"><img height="120px" src="'+value.original_img[0]+'"><span class="title">' + value.title + '</span>' + variations + '<br><div class="price">Prix $'+ warehouse.price +'</div><div class="fees">Frais $'+ warehouse.handling_fee +'</div><a href="#" onclick="import_product(' + value.sku + ')">Importer</a></div>';
 				}
 			});
 		}
@@ -178,6 +185,141 @@ function ds_product_submit(event){
 		loader("hide");	
 	});
 
+}
+
+// Get categories of WooCommerce
+function get_categories(){
+	var list = document.getElementById("ds_cats");
+
+	ds_call("WC_GetProductsCategories", function(output){
+		Object.keys(output).map(function(objectKey, index) {
+			var value = output[objectKey];
+			list.innerHTML += '<option value="' + value.id + '">' + value.name + '</option>';
+		});
+	});
+}
+
+// Import all products (pray)
+function import_all_products(sku){
+	loader("show");
+
+	var category = document.getElementById("ds_cats").value;
+
+	var data = "{\"query\":\"{\\n\\tImportToWc(sku: " + sku + ", cat_id: " + category + ", type: \\\"variable\\\")\\n}\"}";
+
+	var xhr = new XMLHttpRequest();
+	xhr.withCredentials = true;
+
+	xhr.addEventListener("readystatechange", function () {
+	  if (this.readyState === this.DONE) {
+	    console.log(this.responseText);
+	    loader("hide");
+
+	    Swal.fire({
+		  title: '<strong>Produits importés (lol)</strong>',
+		  type: 'success',
+		  html:
+		    'You can use <b>bold text</b>, ' +
+		    '<a href="//github.com">links</a> ' +
+		    'and other HTML tags',
+		  showCloseButton: true,
+		  showCancelButton: true,
+		  focusConfirm: false,
+		  confirmButtonText:
+		    '<i class="fa fa-thumbs-up"></i> Great!',
+		  confirmButtonAriaLabel: 'Thumbs up, great!',
+		  cancelButtonText:
+		    '<i class="fa fa-thumbs-down"></i>',
+		  cancelButtonAriaLabel: 'Thumbs down',
+		})
+	  }
+	});
+
+	xhr.open("POST", "http://localhost:8000/");
+	xhr.setRequestHeader("content-type", "application/json");
+
+	xhr.send(data);
+}
+
+// Import single product
+function import_product(sku){
+
+	loader("show");
+
+	var category = document.getElementById("ds_cats").value;
+
+	var data = "{\"query\":\"{\\n\\tImportToWc(sku: " + sku + ", cat_id: " + category + ")\\n}\"}";
+
+	var xhr = new XMLHttpRequest();
+	xhr.withCredentials = true;
+
+	xhr.addEventListener("readystatechange", function () {
+	  if (this.readyState === this.DONE) {
+	    console.log(this.responseText);
+	    loader("hide");
+
+	    Swal.fire({
+		  title: '<strong>Produit importé !</strong>',
+		  type: 'success',
+		  html:
+		    'You can use <b>bold text</b>, ' +
+		    '<a href="//github.com">links</a> ' +
+		    'and other HTML tags',
+		  showCloseButton: true,
+		  showCancelButton: true,
+		  focusConfirm: false,
+		  confirmButtonText:
+		    '<i class="fa fa-thumbs-up"></i> Great!',
+		  confirmButtonAriaLabel: 'Thumbs up, great!',
+		  cancelButtonText:
+		    '<i class="fa fa-thumbs-down"></i>',
+		  cancelButtonAriaLabel: 'Thumbs down',
+		})
+	  }
+	});
+
+	xhr.open("POST", "http://localhost:8000/");
+	xhr.setRequestHeader("content-type", "application/json");
+
+	xhr.send(data);
+}
+
+
+function import_product_old(sku){
+	loader("show");
+	fetch_product("chinabrands", sku, function(output){
+		
+		Object.keys(output.msg).map(function(objectKey, index) {
+			var value = output.msg[objectKey];
+			if(value.sku == sku){
+
+				var warehouse = value.warehouse_list[Object.keys(value.warehouse_list)[0]];
+				
+				var form = new FormData();
+				form.append("ds_title", value.title);
+				form.append("ds_desc", value.goods_desc);
+				form.append("ds_img", value.original_img[0]);
+				form.append("ds_sku", value.sku);
+				form.append("ds_price", warehouse.price + value.handling_fee);
+
+				var xhr = new XMLHttpRequest();
+				xhr.withCredentials = true;
+
+				xhr.addEventListener("readystatechange", function () {
+				  if (this.readyState === this.DONE) {
+				  		console.log("Product imported successfuly");
+				  		loader("hide");
+				  }
+				});
+
+				xhr.open("POST", "http://localhost:8181/wp-admin/admin.php?page=dropshifty_importer");
+				xhr.send(form);
+
+				loader("hide");
+
+			}
+		});
+	});
 }
 
 // Get the product stock
@@ -197,7 +339,7 @@ function get_product_stock(sku, warehouse){
 }
 
 // Fetch products details
-function fecth_product(supplier, sku, handledata){
+function fetch_product(supplier, sku, handledata){
 
 	loader("show");
 	var url;

@@ -74,6 +74,7 @@ h1{
 	background-color: #21222de6;
 	text-align: center;
 	height: 100%;
+	z-index: 999;
 }
 
 .ds_loader img{
@@ -164,4 +165,13 @@ h1{
 	margin-right: auto;
 	margin-top: 10px;
 	margin-bottom: 15px;
+}
+
+.ds_cats_container{
+	margin-bottom: 10px;
+}
+
+.ds_cats_container h3{
+	color: #fff;
+	margin-bottom: 10px;
 }

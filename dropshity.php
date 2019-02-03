@@ -16,13 +16,17 @@ class Dropshifty{
 	public function __construct(){
 		add_action('admin_menu', [$this, 'add_admin_menu']);
 		add_action('admin_init', [$this, 'register_settings']);
-	
-		wp_register_script('sweetalert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@8', null, null, true );
-		wp_enqueue_script('sweetalert2');
 
-		wp_enqueue_script('dropshifty_script', plugin_dir_url(__FILE__) . 'script.js', ["sweetalert2"]);	
+		if(isset($_GET['page'])){
+			if (substr_count($_GET['page'], 'dropshifty') > 0) {
+			    wp_register_script('sweetalert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@8', null, null, true );
+				wp_enqueue_script('sweetalert2');
 
-		wp_enqueue_style('dropshifty_style', plugin_dir_url(__FILE__) . 'style.css');
+				wp_enqueue_script('dropshifty_script', plugin_dir_url(__FILE__) . 'script.js', ["sweetalert2"]);	
+
+				wp_enqueue_style('dropshifty_style', plugin_dir_url(__FILE__) . 'style.css');
+			}
+		}
 
 		$this->check_authent();
 	}
