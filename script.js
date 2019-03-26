@@ -10,6 +10,9 @@ function check_wc_api_filled(){
 				Swal.fire({
 				  type: 'error',
 				  title: 'Oups...',
+				  showCloseButton: false,
+				  showCancelButton: false,
+				  focusConfirm: false,
 				  html: 'Nous ne disposons pas de vos informations de connexion à l\'API WooCommerce, veuillez les fournir sur votre compte Dropshifty pour utiliser le plugin.<br><br><a href="'+ link +'">Renseigner les informations automatiquement.</a>',
 				  footer: '<a href="https://dropshifty.com/my-account">Renseigner mes informations sur Dropshifty.com</a>'
 				});
@@ -17,6 +20,8 @@ function check_wc_api_filled(){
 		}
 	});
 }
+
+console.log(scriptParams.ds_plugin_url);
 
 // Check if user is logged, if not, try to log with filled credentials
 ds_call("CheckIfConnected", function(status){
@@ -62,7 +67,7 @@ ds_call("CheckIfConnected", function(status){
 			  }
 			});
 
-			xhr.open("POST", "http://localhost:8000/login");
+			xhr.open("POST", "https://ds-api2.herokuapp.com/login");
 			xhr.send(form);
 
 		}
@@ -95,12 +100,13 @@ function ds_call(arg, handledata){
 
 	xhr.addEventListener("readystatechange", function () {
 	  if (this.readyState === this.DONE) {
+	  	console.log(this.response);
 	    object = JSON.parse(this.response);
 	    handledata(object.data[arg]);
 	  }
 	});
 	xhr.withCredentials = true;
-	xhr.open("POST", "http://localhost:8000/");
+	xhr.open("POST", "https://ds-api2.herokuapp.com/");
 	xhr.setRequestHeader("content-type", "application/json");
 	xhr.send(data);
 
@@ -137,7 +143,7 @@ function ds_config_submit(event) {
 	  }
 	});
 
-	xhr.open("POST", "http://localhost:8000/login");
+	xhr.open("POST", "https://ds-api2.herokuapp.com/login");
 
 	xhr.send(form);
 }
@@ -147,7 +153,7 @@ function logout(){
 	loader("show");
 
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', 'http://localhost:8000/logout', true);
+	xhr.open('GET', 'https://ds-api2.herokuapp.com/logout', true);
 	xhr.withCredentials = true;
 	xhr.send(null);
 	window.location.replace(scriptParams.ds_plugin_url + "/wp-admin/admin.php?page=dropshifty_configuration&logout");
@@ -245,7 +251,7 @@ function import_all_products(sku){
 	  }
 	});
 
-	xhr.open("POST", "http://localhost:8000/");
+	xhr.open("POST", "https://ds-api2.herokuapp.com/");
 	xhr.setRequestHeader("content-type", "application/json");
 
 	xhr.send(data);
@@ -281,7 +287,7 @@ function import_product(sku){
 	  }
 	});
 
-	xhr.open("POST", "http://localhost:8000/");
+	xhr.open("POST", "https://ds-api2.herokuapp.com/");
 	xhr.setRequestHeader("content-type", "application/json");
 
 	xhr.send(data);
@@ -298,7 +304,7 @@ function get_product_stock(sku, warehouse){
 	  }
 	});
 
-	xhr.open("POST", "http://localhost:8000/");
+	xhr.open("POST", "https://ds-api2.herokuapp.com/");
 	xhr.setRequestHeader("content-type", "application/json");
 	xhr.send(data);
 }
